@@ -1,3 +1,3 @@
-const main = _ => console.log('Hello')
+const main = _ => 'Hello'
 
-main()
+export default main
