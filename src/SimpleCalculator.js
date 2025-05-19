@@ -1,10 +1,19 @@
 const print = console.log
 
+const divide = exp => {
+    if (exp.includes('/')) {
+        const tokens = exp.split('/')
+        const token = tokens.shift()
+        return tokens.map(Number).reduce((acc, cur) => acc / cur, token)
+    } else
+        return Number(exp)
+}
+
 const multiply = exp => {
     if (exp.includes('*'))
-        return exp.split('*').map(Number).reduce((acc, cur) => acc * cur, 1)
+        return exp.split('*').map(divide).reduce((acc, cur) => acc * cur, 1)
     else
-        return Number(exp)
+        return divide(exp)
 }
 
 const plus = src => {
@@ -19,7 +28,7 @@ const calculate = src => {
 export default calculate
 
 ;(() => {
-    const src = '2*2+4+4'
+    const src = '2*2+4/4'
     const val = calculate(src)
     print(val)
 })()
