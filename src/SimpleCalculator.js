@@ -1,7 +1,14 @@
 const print = console.log
 
+const multiply = exp => {
+    if (exp.includes('*'))
+        return exp.split('*').map(Number).reduce((acc, cur) => acc * cur, 1)
+    else
+        return Number(exp)
+}
+
 const plus = src => {
-    return src.split('+').map(Number).reduce((acc, cur) => acc + cur, 0)
+    return src.split('+').map(multiply).reduce((acc, cur) => acc + cur, 0)
 }
 
 const calculate = src => {
@@ -12,7 +19,7 @@ const calculate = src => {
 export default calculate
 
 ;(() => {
-    const src = '1+2+3'
+    const src = '2*2+4+4'
     const val = calculate(src)
     print(val)
 })()
