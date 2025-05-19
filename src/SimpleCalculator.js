@@ -16,8 +16,17 @@ const multiply = exp => {
         return divide(exp)
 }
 
+const minus = exp => {
+    if (exp.includes('-')) {
+        const tokens = exp.split('-')
+        const token = tokens.shift()
+        return tokens.map(multiply).reduce((acc, cur) => acc - cur, token)
+    } else
+        return multiply(exp)
+}
+
 const plus = src => {
-    return src.split('+').map(multiply).reduce((acc, cur) => acc + cur, 0)
+    return src.split('+').map(minus).reduce((acc, cur) => acc + cur, 0)
 }
 
 const calculate = src => {
@@ -28,7 +37,7 @@ const calculate = src => {
 export default calculate
 
 ;(() => {
-    const src = '2*2+4/4'
+    const src = '2-2-4+4'
     const val = calculate(src)
     print(val)
 })()
