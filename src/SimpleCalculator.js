@@ -29,15 +29,29 @@ const plus = src => {
     return src.split('+').map(minus).reduce((acc, cur) => acc + cur, 0)
 }
 
+const parenthesis = src => {
+    if (src.includes('(')) {
+        const start = src.indexOf('(')
+        const val = parenthesis(src.slice(start + 1))
+        return parenthesis(src.slice(0, start) + val)
+    } else if (src.includes(')')) {
+        const end = src.indexOf(')')
+        const val = plus(src.slice(0, end))
+        return String(val) + src.slice(end + 1)
+    } else
+        return src
+}
+
 const calculate = src => {
-    const val = plus(src)
+    const parened = parenthesis(src)
+    const val = plus(parened)
     return val
 }
 ////////////////////////
 export default calculate
 
 ;(() => {
-    const src = '2-2-4+4'
+    const src = '(5+(2*2))'
     const val = calculate(src)
     print(val)
 })()
