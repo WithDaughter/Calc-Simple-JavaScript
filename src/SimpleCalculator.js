@@ -1,32 +1,25 @@
 const print = console.log
 
 const divide = exp => {
-    if (exp.includes('/')) {
-        const tokens = exp.split('/').map(t => t.trim())
-        const token = Number(tokens.shift())
-        return tokens.map(Number).reduce((acc, cur) => acc / cur, token)
-    } else
-        return Number(exp.trim())
+    const tokens = exp.split('/').map(t => t.trim())
+    const token = Number(tokens.shift())
+    return tokens.map(Number).reduce((acc, cur) => acc / cur, token)
 }
 
 const multiply = exp => {
-    if (exp.includes('*'))
-        return exp.split('*').map(divide).reduce((acc, cur) => acc * cur, 1)
-    else
-        return divide(exp)
+    return exp.split('*').map(divide)
+        .reduce((acc, cur) => acc * cur, 1)
 }
 
 const minus = exp => {
-    if (exp.includes('-')) {
-        const tokens = exp.split('-')
-        const token = multiply(tokens.shift().trim())
-        return tokens.map(multiply).reduce((acc, cur) => acc - cur, token)
-    } else
-        return multiply(exp)
+    const tokens = exp.split('-')
+    const token = multiply(tokens.shift().trim())
+    return tokens.map(multiply).reduce((acc, cur) => acc - cur, token)
 }
 
 const plus = src => {
-    return src.split('+').map(minus).reduce((acc, cur) => acc + cur, 0)
+    return src.split('+').map(minus)
+        .reduce((acc, cur) => acc + cur, 0)
 }
 
 const parenthesis = src => {
@@ -45,10 +38,9 @@ const parenthesis = src => {
 
 const calculate = src => {
     const parened = parenthesis(src)
-    const val = plus(parened)
-    return val
+    return plus(parened)
 }
-////////////////////////
+
 export default calculate
 
 const assert = (src, expected) => {
